@@ -20,30 +20,31 @@ group 'it.rattly'
 version '1.0-SNAPSHOT'
 
 compileJava.options.encoding = 'UTF-8'
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
 
 def dev = System.getenv("PROD") == null
 def mainClassName = "it.rattly.todo.Todo"
+
+configurations {
+    shade.extendsFrom implementation
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'io.javalin:javalin:4.4.0'
-    implementation 'gg.jte:jte:2.0.2'
+    shade 'io.javalin:javalin:4.4.0'
+    shade 'gg.jte:jte:2.0.2'
 
-    implementation 'org.webjars.npm:feather-icons:4.28.0'
-    implementation 'org.webjars.npm:flexboxgrid:6.3.0'
-    implementation 'com.zaxxer:HikariCP:5.0.1'
+    shade 'org.webjars.npm:feather-icons:4.28.0'
+    shade 'org.webjars.npm:flexboxgrid:6.3.0'
+    shade 'com.zaxxer:HikariCP:5.0.1'
 
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.4'
-    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta4'
+    shade group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.4'
+    shade group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta4'
 
-    implementation 'org.jooq:jooq:3.16.5'
-    implementation 'org.postgresql:postgresql:42.2.5'
+    shade 'org.jooq:jooq:3.16.5'
+    shade 'org.postgresql:postgresql:42.2.5'
 }
 
 task stage(dependsOn: ['build', 'clean'])
@@ -66,8 +67,7 @@ jar {
     }
 
     from {
-        configurations.implementation.setCanBeResolved(true)
-        configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.shade.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
