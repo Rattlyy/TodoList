@@ -63,14 +63,11 @@ jar {
     manifest {
         attributes "Main-Class": "$mainClassName"
     }
-}
 
-task copyToLib(type: Copy) {
-    into "$buildDir/libs"
-    from(configurations.compileClasspath)
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
-
-stage.dependsOn(copyToLib)
 
 import org.jooq.codegen.GenerationTool
 import org.jooq.meta.jaxb.*
