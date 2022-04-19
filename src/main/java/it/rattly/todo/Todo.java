@@ -58,7 +58,7 @@ public class Todo {
                 staticFiles.directory = "assets/";
                 staticFiles.location = Location.CLASSPATH;
             });
-        }).start(IS_DEV ? 8080 : Integer.parseInt(System.getenv("PORT")));
+        }).start(getHerokuAssignedPort());
 
         app.before(ctx -> {
             ctx.res.setCharacterEncoding("UTF-8");
@@ -76,5 +76,13 @@ public class Todo {
         } else {
             return TemplateEngine.createPrecompiled(Path.of("jte-classes"), ContentType.Html);
         }
+    }
+
+    private static int getHerokuAssignedPort() {
+        String herokuPort = System.getenv("PORT");
+        if (herokuPort != null) {
+            return Integer.parseInt(herokuPort);
+        }
+        return 7000;
     }
 }
