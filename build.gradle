@@ -66,6 +66,7 @@ jar {
     }
 
     from {
+        configurations.implementation.setCanBeResolved(true)
         configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
