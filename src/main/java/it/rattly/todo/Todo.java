@@ -58,7 +58,7 @@ public class Todo {
                 staticFiles.directory = "assets/";
                 staticFiles.location = Location.CLASSPATH;
             });
-        }).start(8080);
+        }).start(IS_DEV ? 8080 : Integer.parseInt(System.getenv("PORT")));
 
         app.before(ctx -> {
             ctx.res.setCharacterEncoding("UTF-8");
