@@ -32,18 +32,18 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.javalin:javalin:4.4.0'
-    implementation 'gg.jte:jte:2.0.2'
+    runtimeClasspath 'io.javalin:javalin:4.4.0'
+    runtimeClasspath 'gg.jte:jte:2.0.2'
 
-    implementation 'org.webjars.npm:feather-icons:4.28.0'
-    implementation 'org.webjars.npm:flexboxgrid:6.3.0'
-    implementation 'com.zaxxer:HikariCP:5.0.1'
+    runtimeClasspath 'org.webjars.npm:feather-icons:4.28.0'
+    runtimeClasspath 'org.webjars.npm:flexboxgrid:6.3.0'
+    runtimeClasspath 'com.zaxxer:HikariCP:5.0.1'
 
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.4'
-    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta4'
+    runtimeClasspath group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.4'
+    runtimeClasspath group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta4'
 
-    implementation 'org.jooq:jooq:3.16.5'
-    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+    runtimeClasspath 'org.jooq:jooq:3.16.5'
+    runtimeClasspath 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
 }
 
 task stage(dependsOn: ['build', 'clean'])
@@ -67,7 +67,7 @@ jar {
 
 task copyToLib(type: Copy) {
     into "$buildDir/libs"
-    from(configurations.implementation)
+    from(configurations.runtimeClasspath)
 }
 
 stage.dependsOn(copyToLib)
