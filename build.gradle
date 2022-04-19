@@ -1,0 +1,113 @@
+//file:noinspection GroovyAssignabilityCheck
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    dependencies {
+        /* See above for the correct groupId */
+        classpath 'org.jooq:jooq-codegen:3.16.5'
+        classpath 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+group 'it.rattly'
+version '1.0-SNAPSHOT'
+
+compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+def dev = System.getenv("PROD") == null
+def mainClassName = "it.rattly.todo.Todo"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.javalin:javalin:4.4.0'
+    implementation 'gg.jte:jte:2.0.2'
+
+    implementation 'org.webjars.npm:feather-icons:4.28.0'
+    implementation 'org.webjars.npm:flexboxgrid:6.3.0'
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.4'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta4'
+
+    implementation 'org.jooq:jooq:3.16.5'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+}
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
+
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources", "src/main/jte"
+        }
+    }
+}
+
+jar {
+    archiveFileName = "file.jar"
+
+    manifest {
+        attributes "Main-Class": "$mainClassName"
+    }
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/libs"
+    from(configurations.implementation)
+}
+
+stage.dependsOn(copyToLib)
+
+import org.jooq.codegen.GenerationTool
+import org.jooq.meta.jaxb.*
+
+task generate {
+    def username
+    def password
+    def dbUrl
+
+    if (dev) {
+        username = "root"
+        password = ""
+        dbUrl = "jdbc:mysql://localhost:3306"
+    } else {
+        def dbUri = new URI(System.getenv("DATABASE_URL"));
+
+        username = dbUri.getUserInfo().split(":")[0];
+        password = dbUri.getUserInfo().split(":")[1];
+        dbUrl = "jdbc:mysql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
+    }
+
+    doLast {
+        GenerationTool.generate(new Configuration()
+                .withJdbc(new Jdbc()
+                        .withDriver('org.mariadb.jdbc.Driver')
+                        .withUrl(dbUrl)
+                        .withUser(username)
+                        .withPassword(password))
+                .withGenerator(new Generator()
+                        .withDatabase(new Database().withInputSchema("todos"))
+                        .withGenerate(new Generate()
+                                .withPojos(true)
+                                .withDaos(true))
+                        .withTarget(new Target()
+                                .withPackageName('it.rattly.todo.db.generated')
+                                .withDirectory(projectDir.getAbsolutePath() + '/src/main/java'))))
+    }
+}
+
+assemble.dependsOn(generate)
