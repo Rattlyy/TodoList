@@ -39,7 +39,7 @@ public class Todo {
 
             username = dbUri.getUserInfo().split(":")[0];
             password = dbUri.getUserInfo().split(":")[1];
-            database = dbUri.getPath();
+            database = dbUri.getPath().replace("/", "");
             host = dbUri.getHost();
             port =  dbUri.getPort();
         }
