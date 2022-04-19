@@ -8,7 +8,7 @@ buildscript {
     dependencies {
         /* See above for the correct groupId */
         classpath 'org.jooq:jooq-codegen:3.16.5'
-        classpath 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+        classpath 'org.postgresql:postgresql:42.2.5'
     }
 }
 
@@ -32,18 +32,18 @@ repositories {
 }
 
 dependencies {
-    runtimeClasspath 'io.javalin:javalin:4.4.0'
-    runtimeClasspath 'gg.jte:jte:2.0.2'
+    compileClasspath 'io.javalin:javalin:4.4.0'
+    compileClasspath 'gg.jte:jte:2.0.2'
 
-    runtimeClasspath 'org.webjars.npm:feather-icons:4.28.0'
-    runtimeClasspath 'org.webjars.npm:flexboxgrid:6.3.0'
-    runtimeClasspath 'com.zaxxer:HikariCP:5.0.1'
+    compileClasspath 'org.webjars.npm:feather-icons:4.28.0'
+    compileClasspath 'org.webjars.npm:flexboxgrid:6.3.0'
+    compileClasspath 'com.zaxxer:HikariCP:5.0.1'
 
-    runtimeClasspath group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.4'
-    runtimeClasspath group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta4'
+    compileClasspath group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.4'
+    compileClasspath group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta4'
 
-    runtimeClasspath 'org.jooq:jooq:3.16.5'
-    runtimeClasspath 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+    compileClasspath 'org.jooq:jooq:3.16.5'
+    compileClasspath 'org.postgresql:postgresql:42.2.5'
 }
 
 task stage(dependsOn: ['build', 'clean'])
@@ -67,7 +67,7 @@ jar {
 
 task copyToLib(type: Copy) {
     into "$buildDir/libs"
-    from(configurations.runtimeClasspath)
+    from(configurations.compileClasspath)
 }
 
 stage.dependsOn(copyToLib)
@@ -89,7 +89,7 @@ task generate {
 
         username = dbUri.getUserInfo().split(":")[0];
         password = dbUri.getUserInfo().split(":")[1];
-        dbUrl = "jdbc:mysql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
+        dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath();
     }
 
     doLast {

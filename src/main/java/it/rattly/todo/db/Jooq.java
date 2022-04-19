@@ -28,7 +28,7 @@ public class Jooq {
         HikariConfig config = new HikariConfig();
 
         config.setJdbcUrl(jdbcURL());
-        config.setDriverClassName("org.mariadb.jdbc.Driver");
+        config.setDriverClassName("org.postgresql.Driver");
         config.setUsername(user);
         config.setPassword(password);
         config.setPoolName("TodoPool");
@@ -40,7 +40,7 @@ public class Jooq {
 
         ExecutorService executorService = Executors.newCachedThreadPool();
         settings.set(executorService);
-        settings.set(SQLDialect.MARIADB);
+        settings.set(SQLDialect.POSTGRES);
         settings.set(new HikariDataSource(config));
 
         get().createTableIfNotExists(TODOS_).executeAsync();
