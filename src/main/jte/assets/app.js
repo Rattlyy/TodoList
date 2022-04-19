@@ -1,7 +1,7 @@
 const api = "http://localhost:8080/"
 
 function complete(id) {
-    fetch(api + 'todos/' + id + "?done=1", {
+    fetch('todos/' + id + "?done=1", {
         method: 'PATCH',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
@@ -10,7 +10,7 @@ function complete(id) {
 }
 
 function remove(id) {
-    fetch(api + 'todos/' + id, {
+    fetch('todos/' + id, {
         method: 'DELETE',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
@@ -20,7 +20,7 @@ function remove(id) {
 
 function add() {
     let value = document.getElementById("insert").value
-    fetch(api + "todos/?value=" + value, {
+    fetch("todos/?value=" + value, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
