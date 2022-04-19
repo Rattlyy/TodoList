@@ -80,9 +80,12 @@ public class Todo {
 
     private static int getHerokuAssignedPort() {
         String herokuPort = System.getenv("PORT");
+
+        System.out.println("port=" + herokuPort);
         if (herokuPort != null) {
             return Integer.parseInt(herokuPort);
         }
+
         return 7000;
     }
 }
