@@ -55,7 +55,7 @@ public class Jooq {
     }
 
     private String jdbcURL() {
-        return String.format("jdbc:mysql://%s:%s/%s",
+        return String.format("jdbc:postgresql://%s:%s/%s",
                 host,
                 port,
                 database);
