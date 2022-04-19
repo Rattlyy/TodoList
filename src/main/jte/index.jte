@@ -38,13 +38,13 @@
             <div class="p-card-content">
                 <h3 class="p-card-title">Todo</h3>
                 <p class="p-card-text">${todoView.getTodos().get(i).getValue()}</p>
-                <p class="p-card-text">Completato: ${todoView.getTodos().get(i).getDone() == 1 ? "✓" : "✘"}</p>
+                <p class="p-card-text">Completato: ${todoView.getTodos().get(i).getDone() ? "✓" : "✘"}</p>
 
-                @if(todoView.getTodos().get(i).getDone() == 0)
+                @if(!todoView.getTodos().get(i).getDone())
                     <button class="p-btn" onclick="complete(${todoView.getTodos().get(i).getId()})">Completa</button>
                 @endif
 
-                @if(todoView.getTodos().get(i).getDone() == 1)
+                @if(todoView.getTodos().get(i).getDone())
                     <button class="p-btn" onclick="remove(${todoView.getTodos().get(i).getId()})">Elimina</button>
                 @endif
             </div>
