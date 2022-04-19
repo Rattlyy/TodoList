@@ -95,7 +95,7 @@ task generate {
     doLast {
         GenerationTool.generate(new Configuration()
                 .withJdbc(new Jdbc()
-                        .withDriver('org.mariadb.jdbc.Driver')
+                        .withDriver('org.postgresql.Driver')
                         .withUrl(dbUrl)
                         .withUser(username)
                         .withPassword(password))
