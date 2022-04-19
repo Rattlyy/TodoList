@@ -26,22 +26,25 @@ public class Todo {
         int port;
         String username;
         String password;
+        String database;
 
         if (IS_DEV) {
             host = "localhost";
             port = 3306;
             username = "root";
             password = "";
+            database = "todos";
         } else {
             var dbUri = new URI(System.getenv("DATABASE_URL"));
 
             username = dbUri.getUserInfo().split(":")[0];
             password = dbUri.getUserInfo().split(":")[1];
+            database = dbUri.getPath();
             host = dbUri.getHost();
             port =  dbUri.getPort();
         }
 
-        Jooq jooq = new Jooq(host, port, "todos", username, password);
+        Jooq jooq = new Jooq(host, port, database, username, password);
         TodosDao todosDao = new TodosDao(jooq.settings());
 
         JavalinJte.configure(createTemplateEngine());

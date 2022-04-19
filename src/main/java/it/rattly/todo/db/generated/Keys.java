@@ -24,5 +24,5 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<TodosRecord> KEY_TODOS_PRIMARY = Internal.createUniqueKey(Todos.TODOS_, DSL.name("KEY_todos_PRIMARY"), new TableField[] { Todos.TODOS_.ID }, true);
+    public static final UniqueKey<TodosRecord> TODOS_PK = Internal.createUniqueKey(Todos.TODOS_, DSL.name("todos_pk"), new TableField[] { Todos.TODOS_.ID }, true);
 }

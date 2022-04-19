@@ -87,14 +87,14 @@ public class TodosDao extends DAOImpl<TodosRecord, it.rattly.todo.db.generated.t
      * Fetch records that have <code>done BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<it.rattly.todo.db.generated.tables.pojos.Todos> fetchRangeOfDone(Byte lowerInclusive, Byte upperInclusive) {
+    public List<it.rattly.todo.db.generated.tables.pojos.Todos> fetchRangeOfDone(Boolean lowerInclusive, Boolean upperInclusive) {
         return fetchRange(Todos.TODOS_.DONE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>done IN (values)</code>
      */
-    public List<it.rattly.todo.db.generated.tables.pojos.Todos> fetchByDone(Byte... values) {
+    public List<it.rattly.todo.db.generated.tables.pojos.Todos> fetchByDone(Boolean... values) {
         return fetch(Todos.TODOS_.DONE, values);
     }
 }

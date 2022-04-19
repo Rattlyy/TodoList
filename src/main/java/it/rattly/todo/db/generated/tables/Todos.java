@@ -57,7 +57,7 @@ public class Todos extends TableImpl<TodosRecord> {
     /**
      * The column <code>todos.todos.done</code>.
      */
-    public final TableField<TodosRecord, Byte> DONE = createField(DSL.name("done"), SQLDataType.TINYINT.nullable(false), this, "");
+    public final TableField<TodosRecord, Boolean> DONE = createField(DSL.name("done"), SQLDataType.BOOLEAN.nullable(false).defaultValue(DSL.field("false", SQLDataType.BOOLEAN)), this, "");
 
     private Todos(Name alias, Table<TodosRecord> aliased) {
         this(alias, aliased, null);
@@ -104,7 +104,7 @@ public class Todos extends TableImpl<TodosRecord> {
 
     @Override
     public UniqueKey<TodosRecord> getPrimaryKey() {
-        return Keys.KEY_TODOS_PRIMARY;
+        return Keys.TODOS_PK;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class Todos extends TableImpl<TodosRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row3<Integer, String, Byte> fieldsRow() {
+    public Row3<Integer, String, Boolean> fieldsRow() {
         return (Row3) super.fieldsRow();
     }
 }

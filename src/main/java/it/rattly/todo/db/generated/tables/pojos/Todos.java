@@ -17,7 +17,7 @@ public class Todos implements Serializable {
 
     private Integer id;
     private String  value;
-    private Byte    done;
+    private Boolean done;
 
     public Todos() {}
 
@@ -30,7 +30,7 @@ public class Todos implements Serializable {
     public Todos(
         Integer id,
         String  value,
-        Byte    done
+        Boolean done
     ) {
         this.id = id;
         this.value = value;
@@ -68,14 +68,14 @@ public class Todos implements Serializable {
     /**
      * Getter for <code>todos.todos.done</code>.
      */
-    public Byte getDone() {
+    public Boolean getDone() {
         return this.done;
     }
 
     /**
      * Setter for <code>todos.todos.done</code>.
      */
-    public void setDone(Byte done) {
+    public void setDone(Boolean done) {
         this.done = done;
     }
 

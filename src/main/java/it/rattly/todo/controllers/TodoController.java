@@ -17,17 +17,14 @@ public record TodoController(TodosDao todosDao, Jooq jooq) implements CrudHandle
         String value = ctx.queryParamAsClass("value", String.class).check(Objects::nonNull,
                 "Required query parameter \"value\"").get();
 
-        ctx.status(300).json(
+        ctx.status(200).json(
                 new Response(true,
-                        jooq.get()
-                                .transactionResult(configuration -> {
-                                    configuration.dsl()
-                                            .insertInto(TODOS_)
-                                            .values(0, value, false)
-                                            .execute();
-
-                                    return configuration.dsl().lastID();
-                                }).intValue()
+                        jooq.get().dsl()
+                                .insertInto(TODOS_)
+                                .values(0, value, false)
+                                .returning(TODOS_.ID)
+                                .fetchOne()
+                                .getId()
                 )
         );
     }
@@ -59,12 +56,11 @@ public record TodoController(TodosDao todosDao, Jooq jooq) implements CrudHandle
         Integer id = ctx.pathParamAsClass("id", Integer.class).check(Objects::nonNull,
                 "Required path parameter \"id\"").get();
 
-        Integer done = ctx.queryParamAsClass("done", Integer.class).check(i -> i == 0 || i == 1,
-                "\"done\" can only be 1 or 0.").get();
+        Boolean done = ctx.queryParamAsClass("done", Boolean.class).get();
 
         jooq.get()
                 .update(TODOS_)
-                .set(TODOS_.DONE, done.byteValue())
+                .set(TODOS_.DONE, done)
                 .where(TODOS_.ID.eq(id))
                 .execute();
 
