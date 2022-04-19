@@ -59,6 +59,7 @@ sourceSets {
 
 jar {
     archiveFileName = "file.jar"
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
     manifest {
         attributes "Main-Class": "$mainClassName"
