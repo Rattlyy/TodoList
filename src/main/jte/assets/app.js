@@ -1,7 +1,7 @@
 const api = "http://localhost:8080/"
 
 function complete(id) {
-    fetch('todos/' + id + "?done=1", {
+    fetch('todos/' + id + "?done=true", {
         method: 'PATCH',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
