@@ -6,6 +6,7 @@ import it.rattly.todo.db.Jooq;
 import it.rattly.todo.db.generated.tables.daos.TodosDao;
 import it.rattly.todo.models.Response;
 import org.jetbrains.annotations.NotNull;
+import org.jooq.impl.DSL;
 
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ public record TodoController(TodosDao todosDao, Jooq jooq) implements CrudHandle
                 new Response(true,
                         jooq.get().dsl()
                                 .insertInto(TODOS_)
-                                .values(0, value, false)
+                                .values(DSL.defaultValue(), value, false)
                                 .returning(TODOS_.ID)
                                 .fetchOne()
                                 .getId()

@@ -7,8 +7,8 @@
     <title>TodoList</title>
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <link rel="stylesheet" href="assets/puppertino/css/newfull.css">
-    <link rel="stylesheet" href="assets/app.css">
     <link rel="stylesheet" href="webjars/flexboxgrid/6.3.0/css/flexboxgrid.min.css">
+    <link rel="stylesheet" href="assets/app.css">
 
     <script src="assets/puppertino/js/actions.js"></script>
     <script src="assets/puppertino/js/modals.js"></script>
@@ -34,11 +34,11 @@
             @raw <div class="row center-xs"> @endraw
         @endif
 
-        <div class="p-card" style="margin-left: 15px; margin-right: 15px">
+        <div class="p-card card" style="margin-left: 15px; margin-right: 15px">
             <div class="p-card-content">
                 <h3 class="p-card-title">Todo</h3>
                 <p class="p-card-text">${todoView.getTodos().get(i).getValue()}</p>
-                <p class="p-card-text">Completed: ${todoView.getTodos().get(i).getDone() ? "✓" : "✘"}</p>
+                <p class="p-card-text" id="${todoView.getTodos().get(i).getId()}">Completed: ${todoView.getTodos().get(i).getDone() ? "✓" : "✘"}</p>
 
                 @if(!todoView.getTodos().get(i).getDone())
                     <button class="p-btn" onclick="complete(${todoView.getTodos().get(i).getId()})">Complete</button>

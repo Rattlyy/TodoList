@@ -32,18 +32,18 @@ repositories {
 }
 
 dependencies {
-    compileClasspath 'io.javalin:javalin:4.4.0'
-    compileClasspath 'gg.jte:jte:2.0.2'
+    implementation 'io.javalin:javalin:4.4.0'
+    implementation 'gg.jte:jte:2.0.2'
 
-    compileClasspath 'org.webjars.npm:feather-icons:4.28.0'
-    compileClasspath 'org.webjars.npm:flexboxgrid:6.3.0'
-    compileClasspath 'com.zaxxer:HikariCP:5.0.1'
+    implementation 'org.webjars.npm:feather-icons:4.28.0'
+    implementation 'org.webjars.npm:flexboxgrid:6.3.0'
+    implementation 'com.zaxxer:HikariCP:5.0.1'
 
-    compileClasspath group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.4'
-    compileClasspath group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta4'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.4'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.8.0-beta4'
 
-    compileClasspath 'org.jooq:jooq:3.16.5'
-    compileClasspath 'org.postgresql:postgresql:42.2.5'
+    implementation 'org.jooq:jooq:3.16.5'
+    implementation 'org.postgresql:postgresql:42.2.5'
 }
 
 task stage(dependsOn: ['build', 'clean'])
@@ -66,7 +66,7 @@ jar {
     }
 
     from {
-        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 

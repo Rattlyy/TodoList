@@ -25,8 +25,8 @@ public class Todo {
 
         if (IS_DEV) {
             host = "localhost";
-            port = 3306;
-            username = "root";
+            port = 5432;
+            username = "postgres";
             password = "";
             database = "todos";
         } else {
